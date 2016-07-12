@@ -8,7 +8,6 @@ app.use(check)
 app.get('/', home)
 app.get('/profile', profile)
 
-
 function check(req, res, next) {
 	req.token = null
 	var cookie = req.headers.cookie
@@ -27,7 +26,7 @@ function check(req, res, next) {
 		var b = parseInt(Math.random() * 100000000)
 		var t = a + '-' + b
 		req.token = t
-		res.headers('Set-Cookie', 'token=' + t)
+		res.set('Set-Cookie', 'token=' + t)
 	}
 	next()
 }
