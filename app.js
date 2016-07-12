@@ -10,3 +10,5 @@ app.get('/', home)
 function home(req, res) {
 	res.render('index.html')
 }
+
+// npm install express ejs
