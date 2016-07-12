@@ -7,6 +7,7 @@ app.listen(8000)
 app.use(check)
 app.get('/', home)
 app.get('/profile', profile)
+app.get('/login', login)
 
 function check(req, res, next) {
 	req.token = null
@@ -43,6 +44,10 @@ function profile(req, res) {
 	} else {
 		res.redirect('/login')
 	}
+}
+
+function login(req, res) {
+	res.render('login.html')
 }
 
 // npm install express ejs
