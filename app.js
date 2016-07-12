@@ -53,7 +53,10 @@ function login(req, res) {
 	} else {
 		if (req.query.user == 'james' &&
 			req.query.password == 'bond') {
-			granted[req.token] = true;
+			granted[req.token] = true
+			res.redirect('/profile')
+		} else {
+			res.redirect('/login')
 		}
 	}
 }
