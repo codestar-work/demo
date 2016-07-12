@@ -1,6 +1,7 @@
 var express = require('express')
 var app     = express()
 var ejs     = require('ejs')
+var granted = [ ]
 
 app.engine('html', ejs.renderFile)
 app.listen(8000)
@@ -37,7 +38,7 @@ function home(req, res) {
 }
 
 function profile(req, res) {
-	var loggedIn = false;
+	var loggedIn = granted[req.token];
 
 	if (loggedIn) {
 		res.render('profile.html')
@@ -47,7 +48,14 @@ function profile(req, res) {
 }
 
 function login(req, res) {
-	res.render('login.html')
+	if (req.query.user == null) {
+		res.render('login.html')
+	} else {
+		if (req.query.user == 'james' &&
+			req.query.password == 'bond') {
+			granted[req.token] = true;
+		}
+	}
 }
 
 // npm install express ejs
