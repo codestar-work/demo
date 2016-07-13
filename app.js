@@ -9,6 +9,16 @@ app.use(check)
 app.get('/', home)
 app.get('/profile', profile)
 app.get('/login', login)
+app.get('/register', register)
+app.post('/register', registerUser)
+
+function registerUser(req, res) {
+	
+}
+
+function register(req, res) {
+	res.render('register.html')
+}
 
 function check(req, res, next) {
 	req.token = null
