@@ -70,17 +70,6 @@ function check(req, res, next) {
 		var stop = cookie.indexOf(';', p)
 		req.token = cookie.substring(start, stop)
 	}
-	/*
-	if (cookie != null) {
-		var data = cookie.split(';')
-		for (var i = 0; i < data.length; i++) {
-			var pair = data[i].split('=')
-			if (pair[0] == 'token') {
-				req.token = pair[1]
-			}
-		}
-	}
-	*/
 
 	if (req.token == null) {
 		var a = parseInt(Math.random() * 100000000)
@@ -100,7 +89,8 @@ function profile(req, res) {
 	var loggedIn = granted[req.token];
 
 	if (loggedIn) {
-		res.render('profile.html')
+		var u = granted[req.token]
+		res.render('profile.html', {user: u} )
 	} else {
 		res.redirect('/login')
 	}
