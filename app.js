@@ -4,6 +4,7 @@ var ejs     = require('ejs')
 var multer  = require('multer')
 var upload  = multer({dest:'uploads/'})
 var mongo   = require('mongodb').MongoClient
+var crypto  = require('crypto')
 var granted = [ ]
 
 app.engine('html', ejs.renderFile)
@@ -92,4 +93,6 @@ function login(req, res) {
 	}
 }
 
-// npm install express ejs
+function encrypt(s) {
+	return crypto.createHmac('sha512', s).digest('hex')
+}
