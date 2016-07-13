@@ -13,6 +13,7 @@ app.use(check)
 app.get('/', home)
 app.get('/profile', profile)
 app.get('/login', login)
+app.post('/login', upload.single(), loginUser)
 app.get('/register', register)
 app.post('/register', upload.single(), registerUser)
 
@@ -80,17 +81,25 @@ function profile(req, res) {
 }
 
 function login(req, res) {
-	if (req.query.user == null) {
-		res.render('login.html')
-	} else {
-		if (req.query.user == 'james' &&
-			req.query.password == 'bond') {
-			granted[req.token] = true
-			res.redirect('/profile')
-		} else {
-			res.redirect('/login')
-		}
-	}
+	res.render('login.html')
+}
+
+function loginUser(req, res) {
+	var p = encrypt(req.body.password)
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => db.collection('user')
+			.find({email: req.body.user})
+			.toArray(
+				(error, data) => {
+					if (p == data[0].password) {
+						granted[req.token] = data[0]
+						res.redirect('/profile')
+					} else {
+						res.redirect('/login')
+					}
+				}
+		)
+	)
 }
 
 function encrypt(s) {
