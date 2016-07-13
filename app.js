@@ -5,11 +5,14 @@ var multer  = require('multer')
 var upload  = multer({dest:'uploads/'})
 var mongo   = require('mongodb').MongoClient
 var crypto  = require('crypto')
+var fs      = require('fs')
 var granted = [ ]
 
 app.engine('html', ejs.renderFile)
 app.listen(8000)
 app.use(check)
+app.use(express.static('uploads'))
+app.use(express.static('public'))
 app.get('/', home)
 app.get('/profile', profile)
 app.get('/login', login)
@@ -17,6 +20,20 @@ app.post('/login', upload.single(), loginUser)
 app.get('/register', register)
 app.post('/register', upload.single(), registerUser)
 app.get('/logout', logout)
+app.post('/upload-profile', upload.single('photo'), saveProfile)
+
+function saveProfile(req, res) {
+	var name = req.file.path + '.png'
+	fs.rename(req.file.path, name)
+	var u = granted[req.token]
+	u.photo = name
+	granted[req.token] = u
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => db.collection('user')
+			.update({email: u.email}, u)
+	)
+	res.redirect('/profile')
+}
 
 function registerUser(req, res) {
 	mongo.connect('mongodb://127.0.0.1/demo',
