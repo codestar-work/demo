@@ -1,6 +1,8 @@
 var express = require('express')
 var app     = express()
 var ejs     = require('ejs')
+var multer  = require('multer')
+var upload  = multer({dest:'uploads/'})
 var granted = [ ]
 
 app.engine('html', ejs.renderFile)
@@ -13,7 +15,7 @@ app.get('/register', register)
 app.post('/register', registerUser)
 
 function registerUser(req, res) {
-	
+
 }
 
 function register(req, res) {
