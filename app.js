@@ -47,6 +47,13 @@ function check(req, res, next) {
 	req.token = null
 	var cookie = req.headers.cookie
 	if (cookie != null) {
+		var p = cookie.indexOf('token=')
+		var start = p + 6
+		var stop = cookie.indexOf(';', p)
+		req.token = substring(start, stop)
+	}
+	/*
+	if (cookie != null) {
 		var data = cookie.split(';')
 		for (var i = 0; i < data.length; i++) {
 			var pair = data[i].split('=')
@@ -55,6 +62,7 @@ function check(req, res, next) {
 			}
 		}
 	}
+	*/
 
 	if (req.token == null) {
 		var a = parseInt(Math.random() * 100000000)
