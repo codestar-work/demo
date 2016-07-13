@@ -3,6 +3,7 @@ var app     = express()
 var ejs     = require('ejs')
 var multer  = require('multer')
 var upload  = multer({dest:'uploads/'})
+var mongo   = require('mongodb').MongoClient
 var granted = [ ]
 
 app.engine('html', ejs.renderFile)
@@ -15,8 +16,25 @@ app.get('/register', register)
 app.post('/register', upload.single(), registerUser)
 
 function registerUser(req, res) {
-	console.log(req.body)
-	res.redirect('/')
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => db.collection('user')
+						.find({email: req.body.email})
+						.toArray(
+			(error, data) => {
+				if (data.length == 1) {
+					res.redirect('/register')
+				} else {
+					var u = {}
+					u.first = req.body.first
+					u.last  = req.body.last
+					u.email = req.body.email
+					u.password = encrypt(req.body.password)
+					db.collection('user').insert(u)
+					res.redirect('/login')
+				}
+			}
+		)
+	)
 }
 
 function register(req, res) {
