@@ -12,10 +12,11 @@ app.get('/', home)
 app.get('/profile', profile)
 app.get('/login', login)
 app.get('/register', register)
-app.post('/register', registerUser)
+app.post('/register', upload.single(), registerUser)
 
 function registerUser(req, res) {
-
+	console.log(req.body)
+	res.redirect('/')
 }
 
 function register(req, res) {
