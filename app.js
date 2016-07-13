@@ -90,6 +90,8 @@ function profile(req, res) {
 
 	if (loggedIn) {
 		var u = granted[req.token]
+		var t = u.photo.split('/')
+		u.photo = t[1]
 		res.render('profile.html', {user: u} )
 	} else {
 		res.redirect('/login')
