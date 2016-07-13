@@ -16,6 +16,7 @@ app.get('/login', login)
 app.post('/login', upload.single(), loginUser)
 app.get('/register', register)
 app.post('/register', upload.single(), registerUser)
+app.get('/logout', logout)
 
 function registerUser(req, res) {
 	mongo.connect('mongodb://127.0.0.1/demo',
@@ -50,7 +51,7 @@ function check(req, res, next) {
 		var p = cookie.indexOf('token=')
 		var start = p + 6
 		var stop = cookie.indexOf(';', p)
-		req.token = substring(start, stop)
+		req.token = cookie.substring(start, stop)
 	}
 	/*
 	if (cookie != null) {
@@ -108,6 +109,11 @@ function loginUser(req, res) {
 				}
 		)
 	)
+}
+
+function logout(req, res) {
+	delete granted[req.token]
+	res.render('logout.html')
 }
 
 function encrypt(s) {
