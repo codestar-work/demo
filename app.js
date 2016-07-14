@@ -212,3 +212,20 @@ function deletePost(req, res) {
 		}
 	)
 }
+
+app.delete('/api/delete/:id', deleteByApi)
+function deleteByApi(req, res) {
+	if (!granted[req.token]) {
+		res.send({result: 'error - log in required'})
+		return;
+	}
+	var id = req.params.id
+	var email = granted[req.token].email
+	var data = { _id: ObjectId(id), user: email}
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => {
+			db.collection('post').remove(data)
+			res.send({result:'success'})
+		}
+	)
+}

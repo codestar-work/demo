@@ -8,8 +8,21 @@
 			</a>
 
 			<a href='/delete/<%= post[i]._id %>'> X </a>
+			<button onclick='delete("<%= post[i]._id %>")'
+			>Y</button>
 		</li>
 		<% } %>
 	</ul>
 </div>
+
+<script>
+function delete(id) {
+	var request = {
+		url: '/api/delete/' + id,
+		type: 'DELETE'
+	}
+	$.ajax(request)
+}
+</script>
+
 <% include footer.html %>
