@@ -1,8 +1,39 @@
+<% include header.html %>
+<style>
+	form {
+		max-width: 320px;
+		display: block;
+		margin: 0 auto;
+		border: 2px solid hotpink;
+		padding: 10px;
+		margin-top: 10px;
+		border-radius: 4px;
+		transition: all 0.5s linear;
+	}
+	form > * {
+		margin-bottom: 10px;
+	}
+	form:hover {
+		box-shadow: 0 0 10px gray;
+	}
+</style>
+
 <form method="post" enctype="multipart/form-data">
-	<input name="first" placeholder="First Name">
-	<input name="last" placeholder="Last Name">
-	<input name="email" placeholder="Email">
+	<input name="first" 
+		class='form-control'
+		placeholder="First Name"
+		autofocus>
+	<input name="last" 
+		class='form-control'
+		placeholder="Last Name">
+	<input name="email" 
+		class='form-control' 
+		placeholder="Email">
 	<input name="password" type="password"
+		class='form-control'
 		placeholder="Password">
-	<button type="submit">Join now</button>
+	<button type="submit"
+		class='btn btn-primary'>Join now</button>
 </form>
+
+<% include footer.html %>
