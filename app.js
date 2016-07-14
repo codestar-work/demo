@@ -143,3 +143,29 @@ function create(req, res) {
 		res.redirect('/login')
 	}
 }
+
+app.post('/new', upload.single(), postTopic)
+function postTopic(req, res) {
+	if (!granted[req.token]) {
+		res.redirect('/login')
+		return;
+	}
+	var data = {
+		topic: req.body.topic,
+		detail: req.body.detail,
+		user: granted[req.token].email
+	}
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => {
+			db.collection('post').insert(data)
+			res.redirect('/')
+		}
+	)
+}
+
+/*
+app.post('/new', upload.single())
+app.post('/new', postTopic)
+
+app.get(['/contactus', 'contact', 'contact-us'], showContactPage)
+*/
