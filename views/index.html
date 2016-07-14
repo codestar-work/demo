@@ -19,7 +19,7 @@
 function delete(id) {
 	var request = {
 		url: '/api/delete/' + id,
-		type: 'DELETE'
+		method: 'DELETE'
 	}
 	$.ajax(request)
 }
