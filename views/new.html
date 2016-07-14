@@ -1,0 +1,35 @@
+<% include header.html %>
+<style>
+	form {
+		max-width: 320px;
+		display: block;
+		margin: 0 auto;
+		border: 2px solid hotpink;
+		padding: 10px;
+		margin-top: 10px;
+		border-radius: 4px;
+		transition: all 0.5s linear;
+	}
+	form > * {
+		margin-bottom: 10px;
+	}
+	form:hover {
+		box-shadow: 0 0 10px gray;
+	}
+</style>
+
+<form method='post'>
+<input name='topic'
+	class='form-control'
+	placeholder='Topic'
+	autofocus>
+<textarea name='detail'
+	class='form-control'
+	placeholder='Detail'
+></textarea>
+<button type='submit'
+	class='btn btn-primary'
+	>Post</button>
+</form>
+
+<% include footer.html %>
