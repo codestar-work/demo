@@ -83,7 +83,11 @@ function check(req, res, next) {
 }
 
 function home(req, res) {
-	res.render('index.html')
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => db.collection('post').find().toArray(
+			(error, data) => res.render('index.html', {post:data})
+		)
+	)
 }
 
 function profile(req, res) {
@@ -169,3 +173,12 @@ app.post('/new', postTopic)
 
 app.get(['/contactus', 'contact', 'contact-us'], showContactPage)
 */
+
+app.get('/api/list', list)
+function list(req, res) {
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => db.collection('post').find().toArray(
+			(error, data) => res.send(data)
+		)
+	)
+}
