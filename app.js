@@ -195,3 +195,20 @@ function showPost(req, res) {
 		)
 	)
 }
+
+app.get('/delete/:id', deletePost)
+function deletePost(req, res) {
+	if (!granted[req.token]) {
+		res.redirect('/login')
+		return;
+	}
+	var id = req.params.id
+	var email = granted[req.token].email
+	var data = { _id: ObjectId(id), user: email}
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => {
+			db.collection('post').remove(data)
+			res.redirect('/')
+		}
+	)
+}
