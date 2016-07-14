@@ -1,6 +1,9 @@
 <% include header.html %>
 <div class="container">
-	<i>This is the first page</i>
-	<button class="btn btn-danger">Delete</button>
+	<ul>
+		<% for (var i = 0; i < post.length; i++) { %>
+		<li><%= post[i].topic %></li>
+		<% } %>
+	</ul>
 </div>
 <% include footer.html %>
