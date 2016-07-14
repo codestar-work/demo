@@ -182,3 +182,15 @@ function list(req, res) {
 		)
 	)
 }
+
+app.get('/show/:id', showPost)
+function showPost(req, res) {
+	var id = req.params.id
+	mongo.connect('mongodb://127.0.0.1/demo',
+		(error, db) => db.collection('post')
+		.find({_id: id}).toArray(
+			(error, data) => 
+				res.render('show.html', {post: data[0]})
+		)
+	)
+}
