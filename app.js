@@ -49,6 +49,7 @@ function registerUser(req, res) {
 					u.last  = req.body.last
 					u.email = req.body.email
 					u.password = encrypt(req.body.password)
+					u.photo = 'uploads/default-profile.png'
 					db.collection('user').insert(u)
 					res.redirect('/login')
 				}
@@ -127,4 +128,18 @@ function logout(req, res) {
 
 function encrypt(s) {
 	return crypto.createHmac('sha512', s).digest('hex')
+}
+
+app.get('/api', status)
+function status(req, res) {
+	res.send({status:'ok'})
+}
+
+app.get('/new', create)
+function create(req, res) {
+	if (granted[req.token]) {
+		res.render('new.html')
+	} else {
+		res.redirect('/login')
+	}
 }
